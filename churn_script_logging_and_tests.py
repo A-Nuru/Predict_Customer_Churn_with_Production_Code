@@ -34,3 +34,15 @@ def test_import(import_data):
     except AssertionError as err:
         logging.error("Testing import_data: The file doesn't appear to have rows and columns")
         raise err
+
+def test_eda():
+    '''
+    Test perform_eda function in the churn_library module
+    '''
+    df = clib.import_data("./data/bank_data.csv")
+    try:
+        cls.perform_eda(dataframe=dataframe)
+        logging.info("Testing perform_eda: SUCCESS")
+    except KeyError as err:
+        logging.error('Column {} not found'.format(err.args[0]))
+        raise err
