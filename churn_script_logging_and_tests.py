@@ -16,18 +16,21 @@ logging.basicConfig(
 
 def test_import(import_data):
     '''
-	test data import - this example is completed for you to assist with the other test functions
-	'''
-	try:
-		df = import_data("./data/bank_data.csv")
-		logging.info("Testing import_data: SUCCESS")
-	except FileNotFoundError as err:
-		logging.error("Testing import_eda: The file wasn't found")
-		raise err
-
-	try:
-		assert df.shape[0] > 0
-		assert df.shape[1] > 0
-	except AssertionError as err:
-		logging.error("Testing import_data: The file doesn't appear to have rows and columns")
-		raise err
+    test import_data function from the churn_library module
+    '''
+    # test file availaibilty in the path
+    try:
+        df = cls.import_data("./data/bank_data.csv")
+        logging.info("Testing import_data: SUCCESS")
+    except FileNotFoundError as err:
+        logging.error("Testing import_eda: The file wasn't found")
+        raise err
+    
+    # test the the datafram
+    try:
+        assert df.shape[0] > 0
+        assert df.shape[1] > 0
+        logging.info("Testing import_data: The file has {} rows and {} columns".format(df.shape[0], df.shape[1]))
+    except AssertionError as err:
+        logging.error("Testing import_data: The file doesn't appear to have rows and columns")
+        raise err
