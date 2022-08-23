@@ -30,3 +30,19 @@ def import_data(pth):
             df: pandas dataframe
     '''	
     return pd.read_csv(pth)
+
+def perform_eda(df):
+    '''
+    perform eda on df and save figures to images folder
+    input:
+            df: pandas dataframe
+
+    output:
+            None
+    '''
+    df.drop('Unnamed: 0', axis=1, inplace=True)
+
+    # Encoding the label column
+    df['Churn'] = df['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
+
+    
