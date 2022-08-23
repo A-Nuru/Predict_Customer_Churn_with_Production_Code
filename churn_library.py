@@ -41,8 +41,41 @@ def perform_eda(df):
             None
     '''
     df.drop('Unnamed: 0', axis=1, inplace=True)
+    #print(df.describe())
 
     # Encoding the label column
     df['Churn'] = df['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
 
+    # plotting and saving figures
+    # Churn Distribution
+    plt.figure(figsize=(20, 10))
+    df['Churn'].hist()
+    plt.savefig(fname='./images/eda/churn_distribution.png')
+
+    # Customer Age Distribution
+    plt.figure(figsize=(20, 10))
+    df['Customer_Age'].hist()
+    plt.savefig(fname='./images/eda/customer_age_distribution.png')
+
+    # Marital Status Distribution
+    plt.figure(figsize=(20, 10))
+    df.Marital_Status.value_counts('normalize').plot(kind='bar')
+    plt.savefig(fname='./images/eda/marital_status_distribution.png')
+
+    # Total Transaction Distribution
+    plt.figure(figsize=(20, 10))
+    #sns.histplot(df['Total_Trans_Ct'],kde=True);
+    #plt.savefig(fname='./images/eda/total_transaction_distribution.png')
+
+    # Heatmap
+    plt.figure(figsize=(20, 10))
+    sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
+    plt.savefig(fname='./images/eda/heatmap.png')
+
     
+if __name__ == '__main__':
+    # Import data
+    DF = import_data(pth='./data/bank2_data.csv')
+
+    # Perform EDA 
+    perform_eda(DF)    
