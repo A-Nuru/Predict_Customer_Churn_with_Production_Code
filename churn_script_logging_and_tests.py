@@ -14,7 +14,7 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
-def test_import(import_data):
+def test_import():
     '''
     test import_data function from the churn_library module
     '''
@@ -39,9 +39,9 @@ def test_eda():
     '''
     Test perform_eda function in the churn_library module
     '''
-    df = clib.import_data("./data/bank_data.csv")
+    df = cls.import_data("./data/bank_data.csv")
     try:
-        cls.perform_eda(dataframe=dataframe)
+        cls.perform_eda(df)
         logging.info("Testing perform_eda: SUCCESS")
     except KeyError as err:
         logging.error('Column {} not found'.format(err.args[0]))
@@ -81,3 +81,7 @@ def test_eda():
     except AssertionError as err:
         logging.error('Not such file on disk')
         raise err
+
+if __name__ == "__main__":
+    test_import()
+    test_eda()
