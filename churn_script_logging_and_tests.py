@@ -128,7 +128,28 @@ def test_encoder_helper():
         logging.error(
             "Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): ERROR")
         raise err
-    
+
+    try:
+        df_encoded = cls.encoder_helper(
+                            dataframe=dataframe,
+                            category_lst=cat_columns,
+                            response='Churn')
+
+        # Columns names should be different
+        assert df_encoded.columns.equals(dataframe.columns) is False   
+
+        # Data should be different
+        assert df_encoded.equals(dataframe) is False
+
+        # Number of columns in encoded_df is the sum of columns in data_frame and the newly created columns from cat_columns
+        assert len(df_encoded.columns) == len(dataframe.columns) + len(cat_columns)    
+        logging.info(
+        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): SUCCESS")
+    except AssertionError as err:
+        logging.error(
+        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): ERROR")
+        raise err
+
 if __name__ == "__main__":
     test_import()
     test_eda()
