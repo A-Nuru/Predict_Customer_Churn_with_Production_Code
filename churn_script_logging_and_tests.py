@@ -82,8 +82,76 @@ def test_eda():
     except AssertionError as err:
         logging.error('Not such file on disk')
         raise err
+         
+def test_encoder_helper():
+    '''
+    Test encoder_helper() function from the churn_library module
+    '''
+    # Load DataFrame
+    dataframe = cls.import_data("./data/bank_data.csv")
+
+    # Create `Churn` feature
+    dataframe['Churn'] = dataframe['Attrition_Flag'].\
+                                apply(lambda val: 0 if val=="Existing Customer" else 1)
+
+    # Categorical Features
+    cat_columns = ['Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category']
+
+    try:
+        df_encoded = cls.encoder_helper(
+                            dataframe=dataframe,
+                            category_lst=[],
+                            response=None)
+
+        # Data should be the same
+        assert df_encoded.equals(dataframe) is True
+        logging.info("Testing encoder_helper(data_frame, category_lst=[]): SUCCESS")
+    except AssertionError as err:
+        logging.error("Testing encoder_helper(data_frame, category_lst=[]): ERROR")
+        raise err
+
+    try:
+        df_encoded = cls.encoder_helper(
+                            dataframe=dataframe,
+                            category_lst=cat_columns,
+                            response=None)
+
+        # Column names should be same 
+        assert df_encoded.columns.equals(dataframe.columns) is True
+
+        # Data should be different
+        assert df_encoded.equals(dataframe) is False
+        logging.info(
+            "Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): SUCCESS")
+    except AssertionError as err:
+        logging.error(
+            "Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): ERROR")
+        raise err
+
+    try:
+        df_encoded = cls.encoder_helper(
+                            dataframe=dataframe,
+                            category_lst=cat_columns,
+                            response='Churn')
+
+        # Columns names should be different
+        assert df_encoded.columns.equals(dataframe.columns) is False   
+
+        # Data should be different
+        assert df_encoded.equals(dataframe) is False
+
+        # Number of columns in encoded_df is the sum of columns in data_frame and the newly created columns from cat_columns
+        assert len(df_encoded.columns) == len(dataframe.columns) + len(cat_columns)    
+        logging.info(
+        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): SUCCESS")
+    except AssertionError as err:
+        logging.error(
+        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): ERROR")
+        raise err
 
 if __name__ == "__main__":
     test_import()
     test_eda()
+    test_encoder_helper()
     
