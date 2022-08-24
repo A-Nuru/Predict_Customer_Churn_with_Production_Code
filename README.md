@@ -4,8 +4,11 @@
 
 ## Project Description
 Your project description here.
-The goal of this project is to predict whether the credit card users of a bank will churn or not. 
-Best software and engineering practices such as clean and modular code, docstrings, logging and test driven development will be employed in order toproduce a production code.It involves
+The goal of this project is to identify the bank credit card users most likely churn. The Project 
+will include a Python package for a machine learning that predicts whether the credit card users 
+of a bank will churn or not. Best software and engineering practices for PEP8 such as clean 
+and modular code, documentation, logging and test driven development will be employed to  produce 
+a production code.It involves
 - Loading data
 - Preparing the data
 - Exploring the data to understand it
