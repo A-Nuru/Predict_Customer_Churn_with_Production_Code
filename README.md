@@ -19,6 +19,16 @@ a production code.It involves
 
 ## Files and data description
 Overview of the files and data present in the root directory. 
+- churn_notebook.ipynb - ipython notebook
+- churn_library.py - python module
+- churn_script_logging_and_tests.py - test file for the churn_library  module
+- requirements_py3.8.txt - Contains the project installation prerequisites
+- Readme.md - a readme project file 
+- license.txt - a GNU license file
+- data folder - contains the bank_data.csv
+- image folder - Contains the eda and results subfolder. The eda subfolser stores the saved plots
+- logs folder - Contains the churn_library log file
+- models folder - Contains the stored models
 
 ## Running Files
 How do you run your files? What should happen when you run your files?
