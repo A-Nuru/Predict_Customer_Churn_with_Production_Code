@@ -113,7 +113,22 @@ def encoder_helper(dataframe, category_lst, response = None):
             df_encoded[category] = column_lst
     print(df_encoded)
     return df_encoded
-      
+
+def perform_feature_engineering(dataframe, response):
+    '''
+    input:
+              df: pandas dataframe
+              response: string of response name [optional argument that could be used for naming variables or index y column]
+
+    output:
+              X_train: X training data
+              X_test: X testing data
+              y_train: y training data
+              y_test: y testing data
+    '''
+    return (X_train, X_test, y_train, y_test)
+
+
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
@@ -124,3 +139,4 @@ if __name__ == '__main__':
  'Income_Category',
  'Card_Category']
     DF_ENCODED = encoder_helper(DATAFRAME, category_lst, 'churn')
+    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='churn')
