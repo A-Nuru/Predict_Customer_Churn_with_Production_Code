@@ -68,7 +68,59 @@ def perform_eda(dataframe):
     plt.figure(figsize=(20, 10))
     sns.heatmap(dataframe.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     plt.savefig(fname='./images/eda/heatmap.png')
+    return dataframe
+
+def category_lst(dataframe):
+    cat_columns = []
+    for column in dataframe.columns:
+        if dataframe[column].dtype == 'object':
+            cat_columns.append(column)
+    return cat_columns.remove('Attrition_Flag')
+
+def quantitative_columns(df):
+    quant_columns = []
+    for column in df.columns:
+        if df[column].dtype == 'int64' or df[column].dtype == 'float64':
+            quant_columns.append(column)
+    return quant_columns
+#category_lst = category_lst(DF)
+
+def encoder_helper(dataframe, category_lst, response = None):
+    '''
+    Helper function to turn each categorical column into a new column with
+    proportion of churn for each category - associated with cell 15 from the churn notebook
+    input:
+            data_frame: pandas DataFrame
+            category_lst: list of columns that contain categorical features
+            response: string of response name [optional argument that could be used for
+                      naming variables or index y column]
+    output:
+            data_frame: pandas DataFrame with new columns for analysis
+    '''
+    # Copy DataFrame
+    df_encoded = dataframe.copy(deep=True)
     
+    for category in category_lst:
+        column_lst = []
+        column_groups = dataframe.groupby(category).mean()['Churn']
+
+        for val in dataframe[category]:
+            column_lst.append(column_groups.loc[val])
+
+        if response:
+            df_encoded[category + '_' + response] = column_lst
+        else:
+            df_encoded[category] = column_lst
+    print(df_encoded)
+    return df_encoded
+      
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
-    perform_eda(DF)    
+    DATAFRAME = perform_eda(DF)
+    #category_lst = category_lst(DF)
+    category_lst = ['Gender',
+ 'Education_Level',
+ 'Marital_Status',
+ 'Income_Category',
+ 'Card_Category']
+    DF_ENCODED = encoder_helper(DATAFRAME, category_lst, 'churn')

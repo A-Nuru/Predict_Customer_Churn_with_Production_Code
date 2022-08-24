@@ -6,3 +6,6 @@ root - INFO - File customer_age_distribution.png was found
 root - INFO - File marital_status_distribution.png was found
 root - INFO - File total_transaction_distribution.png was found
 root - INFO - File heatmap.png was found
+root - INFO - Testing encoder_helper(data_frame, category_lst=[]): SUCCESS
+root - INFO - Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): SUCCESS
+root - INFO - Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): SUCCESS

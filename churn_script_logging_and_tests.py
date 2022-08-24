@@ -46,44 +46,44 @@ def test_eda():
         logging.info("Testing perform_eda: SUCCESS")
     except KeyError as err:
         logging.error('Column %s not found', err.args[0])
-        #raise err
+        raise err
         
-     # Assert that the plots are created and saved
+    # Assert that the plots are created and saved
     try:
         assert os.path.isfile("./images/eda/churn_distribution.png") is True
         logging.info('File %s was found', 'churn_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/customer_age_distribution.png") is True
         logging.info('File %s was found', 'customer_age_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/marital_status_distribution.png") is True
         logging.info('File %s was found', 'marital_status_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/total_transaction_distribution.png") is True
         logging.info('File %s was found', 'total_transaction_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
     try:
         assert os.path.isfile("./images/eda/heatmap.png") is True
         logging.info('File %s was found', 'heatmap.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
 if __name__ == "__main__":
     test_import()
     test_eda()
-    
+        
