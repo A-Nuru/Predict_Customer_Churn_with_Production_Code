@@ -46,44 +46,73 @@ def test_eda():
         logging.info("Testing perform_eda: SUCCESS")
     except KeyError as err:
         logging.error('Column %s not found', err.args[0])
-        raise err
+        #raise err
         
-    # Assert that the plots are created and saved
+     # Assert that the plots are created and saved
     try:
         assert os.path.isfile("./images/eda/churn_distribution.png") is True
         logging.info('File %s was found', 'churn_distribution.png')
     except AssertionError as err:
-        logging.error('No such file in folder')
+        logging.error('Not such file on disk')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/customer_age_distribution.png") is True
         logging.info('File %s was found', 'customer_age_distribution.png')
     except AssertionError as err:
-        logging.error('No such file in folder')
+        logging.error('Not such file on disk')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/marital_status_distribution.png") is True
         logging.info('File %s was found', 'marital_status_distribution.png')
     except AssertionError as err:
-        logging.error('No such file in folder')
+        logging.error('Not such file on disk')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/total_transaction_distribution.png") is True
         logging.info('File %s was found', 'total_transaction_distribution.png')
     except AssertionError as err:
-        logging.error('No such file in folder')
+        logging.error('Not such file on disk')
         raise err
     try:
         assert os.path.isfile("./images/eda/heatmap.png") is True
         logging.info('File %s was found', 'heatmap.png')
     except AssertionError as err:
-        logging.error('No such file in folder')
+        logging.error('Not such file on disk')
+        raise err
+         
+def test_encoder_helper():
+    '''
+    Test encoder_helper() function from the churn_library module
+    '''
+    # Load DataFrame
+    dataframe = cls.import_data("./data/bank_data.csv")
+
+    # Create `Churn` feature
+    dataframe['Churn'] = dataframe['Attrition_Flag'].\
+                                apply(lambda val: 0 if val=="Existing Customer" else 1)
+
+    # Categorical Features
+    cat_columns = ['Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category']
+
+    try:
+        df_encoded = cls.encoder_helper(
+                            dataframe=dataframe,
+                            category_lst=[],
+                            response=None)
+
+        # Data should be the same
+        assert df_encoded.equals(dataframe) is True
+        logging.info("Testing encoder_helper(data_frame, category_lst=[]): SUCCESS")
+    except AssertionError as err:
+        logging.error("Testing encoder_helper(data_frame, category_lst=[]): ERROR")
         raise err
 
 if __name__ == "__main__":
     test_import()
     test_eda()
-        
+    test_encoder_helper()
+    
