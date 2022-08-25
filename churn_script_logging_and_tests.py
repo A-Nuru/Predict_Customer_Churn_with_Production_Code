@@ -7,6 +7,7 @@ Date : 23th August 2022
 import os
 import logging
 import churn_library as cls
+from math import ceil
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -168,9 +169,19 @@ def test_perform_feature_engineering():
 
         # "Churn" should be present in dataframe's column name
         assert 'Churn' in dataframe.columns
-        logging.info("Testing perform_feature_engineering. Column name(s) of the Dataframe contains the respone string 'Churn': SUCCESS")
+        logging.info("Testing perform_feature_engineering. Column name(s) of the Dataframe contains the response string 'Churn': SUCCESS")
     except KeyError as err:
-        logging.error("Column name(s) of the Dataframe does not contain the string response 'Churn': ERROR")
+        logging.error("Column name(s) of the Dataframe does not contain the response string 'Churn': ERROR")
+        raise err
+        
+    try:
+        # X_test size should be 30% of `data_frame`
+        assert (X_test.shape[0] == ceil(dataframe.shape[0]*0.3)) is True   
+        logging.info(
+            'Testing perform_feature_engineering. Test DataFrame size is correct: SUCCESS')
+    except AssertionError as err:
+        logging.error(
+            'Testing perform_feature_engineering. Test DataFrame size is not correct: ERROR')
         raise err
         
 if __name__ == "__main__":
