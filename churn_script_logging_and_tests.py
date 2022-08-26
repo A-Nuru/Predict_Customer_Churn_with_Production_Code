@@ -233,10 +233,18 @@ def test_train_models():
         logging.error('Not such file on disk')
         raise err
 
-    # Assert if logistic_results.png file exist in results folder
+    # Assert if 'logistic_results.png' file exist in results folder
     try:
         assert os.path.isfile('./images/results/logistic_results.png') is True
         logging.info('File %s was found', 'logistic_results.png')
+    except AssertionError as err:
+        logging.error('Not such file on disk')
+        raise err
+
+    # Assert if 'feature_importances.png' file exists in results folder
+    try:
+        assert os.path.isfile('./images/results/feature_importances.png') is True
+        logging.info('File %s was found', 'feature_importances.png')
     except AssertionError as err:
         logging.error('Not such file on disk')
         raise err
