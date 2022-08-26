@@ -255,12 +255,20 @@ def train_models(X_train, X_test, y_train, y_test):
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
         
     # training the models
-    cv_rfc.fit(X_train, y_train)
-    lrc.fit(X_train, y_train)
+    #cv_rfc.fit(X_train, y_train)
+    #lrc.fit(X_train, y_train)
     
     # Saving the best models
     joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
     joblib.dump(lrc, './models/logistic_model.pkl')
+    
+    # RandomForestClassifier predictions - train and test
+    y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
+    y_test_preds_rf  = cv_rfc.best_estimator_.predict(X_test)
+
+    # LogisticRegression predictions - train and test
+    y_train_preds_lr = lrc.predict(X_train)
+    y_test_preds_lr  = lrc.predict(X_test)
     
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
