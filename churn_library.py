@@ -245,6 +245,15 @@ def train_models(X_train, X_test, y_train, y_test):
     rfc = RandomForestClassifier(random_state=42, n_jobs=-1)
     lrc = LogisticRegression(n_jobs=-1, max_iter=1000)
     
+    # Define Grid Search parameters
+    param_grid = {'n_estimators': [200, 500],
+                  'max_features': ['auto', 'sqrt'],
+                  'max_depth' : [4, 5, 100],
+                  'criterion' :['gini', 'entropy']}
+
+    # Grid Search the patrameters
+    cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+    
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
