@@ -200,7 +200,7 @@ def test_train_models():
                                                     dataframe=dataframe,
                                                     response='Churn')
 
-    # Assert if 'logistic_model.pkl' file exist
+    # Assert if 'logistic_model.pkl' file exist in results folder
     try:
         cls.train_models(X_train, X_test, y_train, y_test)
         assert os.path.isfile("./models/logistic_model.pkl") is True
@@ -217,13 +217,22 @@ def test_train_models():
         logging.error('No such file in folder')
         raise err
         
-    # Assert if 'roc_curve_result.png' file exist
+    # Assert if 'roc_curve_result.png' file exist in results folder
     try:
         assert os.path.isfile('./images/results/roc_curve_result.png') is True
         logging.info('File %s was found', 'roc_curve_result.png')
     except AssertionError as err:
         logging.error('No such file in folder')
         raise err
+        
+    # Assert if 'rfc_results.png' file exist in results folder
+    try:
+        assert os.path.isfile('./images/results/rf_results.png') is True
+        logging.info('File %s was found', 'rf_results.png')
+    except AssertionError as err:
+        logging.error('Not such file on disk')
+        raise err
+
 
         
 if __name__ == "__main__":
