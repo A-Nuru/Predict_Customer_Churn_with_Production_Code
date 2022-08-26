@@ -183,19 +183,53 @@ def classification_report_image(y_train,
     plt.rc('figure', figsize=(6, 6))
     plt.text(0.01, 1.25,
              str('Logistic Regression Train'),
-             {'fontsize': 10}, fontproperties='monospace')
+             {'fontsize': 10}, 
+             fontproperties='monospace')
     plt.text(0.01, 0.05,
              str(classification_report(y_train, y_train_preds_lr)),
-             {'fontsize': 10}, fontproperties='monospace')
+             {'fontsize': 10}, 
+             fontproperties='monospace')
     plt.text(0.01, 0.6,
              str('Logistic Regression Test'),
-             {'fontsize': 10}, fontproperties='monospace')
+             {'fontsize': 10}, 
+             fontproperties='monospace')
     plt.text(0.01, 0.7,
              str(classification_report(y_test, y_test_preds_lr)),
-             {'fontsize': 10}, fontproperties='monospace')
+             {'fontsize': 10}, 
+             fontproperties='monospace')
     plt.axis('off')
     plt.savefig(fname='./images/results/logistic_results.png')
 
+def feature_importance_plot(model, X_data, output_pth):
+    '''
+    creates and stores the feature importances in pth
+    input:
+            model: model object containing feature_importances_
+            X_data: pandas dataframe of X values
+            output_pth: path to store the figure
+
+    output:
+             None
+    '''
+    # calculate feature importances
+    importances = model.best_estimator_.feature_importances_
+
+    # Sort feature importances in descending order
+    indices = np.argsort(importances)[::-1]
+
+    # Rearrange feature names to match the sorted feature importances
+    names = [features.columns[i] for i in indices]
+    plt.figure(figsize=(25, 15))
+    plt.title("Feature Importance")
+    plt.ylabel('Importance')
+
+    # Add bars
+    plt.bar(range(features.shape[1]), importances[indices])
+
+    # x-axis labels
+    plt.xticks(range(features.shape[1]), names, rotation=90)
+    plt.savefig(fname=output_pth + 'feature_importances.png')
+    
 
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
