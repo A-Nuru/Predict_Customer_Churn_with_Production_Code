@@ -230,6 +230,7 @@ def feature_importance_plot(model, X_data, output_pth):
     plt.xticks(range(features.shape[1]), names, rotation=90)
     plt.savefig(fname=output_pth + 'feature_importances.png')
     
+
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
