@@ -229,8 +229,20 @@ def feature_importance_plot(model, X_data, output_pth):
     # x-axis labels
     plt.xticks(range(features.shape[1]), names, rotation=90)
     plt.savefig(fname=output_pth + 'feature_importances.png')
-    
 
+def train_models(X_train, X_test, y_train, y_test):
+    '''
+    train, store model results: images + scores, and store models
+    input:
+              X_train: X training data
+              X_test: X testing data
+              y_train: y training data
+              y_test: y testing data
+    output:
+              None
+    '''
+    pass
+    
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
