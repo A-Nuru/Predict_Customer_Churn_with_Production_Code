@@ -216,6 +216,14 @@ def test_train_models():
     except AssertionError as err:
         logging.error('No such file in folder')
         raise err
+        
+    # Assert if 'roc_curve_result.png' file exist
+    try:
+        assert os.path.isfile('./images/results/roc_curve_result.png') is True
+        logging.info('File %s was found', 'roc_curve_result.png')
+    except AssertionError as err:
+        logging.error('No such file in folder')
+        raise err
 
         
 if __name__ == "__main__":
