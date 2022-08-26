@@ -138,6 +138,77 @@ def perform_feature_engineering(dataframe, response):
     #print(X_train)
     return (X_train, X_test, y_train, y_test)
 
+def classification_report_image(y_train,
+                                y_test,
+                                y_train_preds_lr,
+                                y_train_preds_rf,
+                                y_test_preds_lr,
+                                y_test_preds_rf):
+    '''
+    produces classification report for training and testing results and stores report as image
+    in images folder
+    input:
+            y_train: training response values
+            y_test:  test response values
+            y_train_preds_lr: training predictions from logistic regression
+            y_train_preds_rf: training predictions from random forest
+            y_test_preds_lr: test predictions from logistic regression
+            y_test_preds_rf: test predictions from random forest
+
+    output:
+             None
+    '''
+    # Plot RandomForestClassifier classification report
+    plt.rc('figure', figsize=(6, 6))
+    plt.text(0.01, 1.25,
+             str('Random Forest Train'),
+             {'fontsize': 10}, 
+             fontproperties='monospace')
+    plt.text(0.01, 0.05,
+             str(classification_report(y_test, y_test_preds_rf)),
+             {'fontsize': 10}, 
+             fontproperties='monospace')
+    plt.text(0.01, 0.6,
+             str('Random Forest Test'),
+             {'fontsize': 10}, 
+             fontproperties='monospace')
+    plt.text(0.01, 0.7,
+             str(classification_report(y_train, y_train_preds_rf)),
+             {'fontsize': 10}, 
+             fontproperties='monospace')
+    plt.axis('off')
+    plt.savefig(fname='./images/results/rf_results.png')
+    
+    # Plot LogisticRegression classification report
+    plt.rc('figure', figsize=(6, 6))
+    plt.text(0.01, 1.25,
+             str('Logistic Regression Train'),
+             {'fontsize': 10}, fontproperties='monospace')
+    plt.text(0.01, 0.05,
+             str(classification_report(y_train, y_train_preds_lr)),
+             {'fontsize': 10}, fontproperties='monospace')
+    plt.text(0.01, 0.6,
+             str('Logistic Regression Test'),
+             {'fontsize': 10}, fontproperties='monospace')
+    plt.text(0.01, 0.7,
+             str(classification_report(y_test, y_test_preds_lr)),
+             {'fontsize': 10}, fontproperties='monospace')
+    plt.axis('off')
+    plt.savefig(fname='./images/results/logistic_results.png')
+
+def feature_importance_plot(model, X_data, output_pth):
+    '''
+    creates and stores the feature importances in pth
+    input:
+            model: model object containing feature_importances_
+            X_data: pandas dataframe of X values
+            output_pth: path to store the figure
+
+    output:
+             None
+    '''
+    pass
+    
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
