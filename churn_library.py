@@ -138,6 +138,29 @@ def perform_feature_engineering(dataframe, response):
     #print(X_train)
     return (X_train, X_test, y_train, y_test)
 
+def classification_report_image(y_train,
+                                y_test,
+                                y_train_preds_lr,
+                                y_train_preds_rf,
+                                y_test_preds_lr,
+                                y_test_preds_rf):
+    '''
+    produces classification report for training and testing results and stores report as image
+    in images folder
+    input:
+            y_train: training response values
+            y_test:  test response values
+            y_train_preds_lr: training predictions from logistic regression
+            y_train_preds_rf: training predictions from random forest
+            y_test_preds_lr: test predictions from logistic regression
+            y_test_preds_rf: test predictions from random forest
+
+    output:
+             None
+    '''
+    pass
+
+
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
