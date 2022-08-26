@@ -96,7 +96,7 @@ def encoder_helper(dataframe, category_lst, response = None):
             df_encoded[category + '_' + response] = column_lst
         else:
             df_encoded[category] = column_lst
-    #print(df_encoded)
+    print(df_encoded)
     return df_encoded
 
 def perform_feature_engineering(dataframe, response):
@@ -147,5 +147,5 @@ if __name__ == '__main__':
  'Marital_Status',
  'Income_Category',
  'Card_Category']
-    DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'churn')
-    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='churn')
+    DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
+    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')
