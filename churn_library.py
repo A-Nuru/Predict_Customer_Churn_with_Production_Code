@@ -207,8 +207,12 @@ def feature_importance_plot(model, X_data, output_pth):
     output:
              None
     '''
-    pass
-    
+    # calculate feature importances
+    importances = model.best_estimator_.feature_importances_
+
+    # Sort feature importances in descending order
+    indices = np.argsort(importances)[::-1]
+
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
