@@ -241,7 +241,9 @@ def train_models(X_train, X_test, y_train, y_test):
     output:
               None
     '''
-    pass
+    # Initialise RandomForestClassifier and LogisticRegression
+    rfc = RandomForestClassifier(random_state=42, n_jobs=-1)
+    lrc = LogisticRegression(n_jobs=-1, max_iter=1000)
     
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
