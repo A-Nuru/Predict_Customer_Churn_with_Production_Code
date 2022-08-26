@@ -183,10 +183,37 @@ def test_perform_feature_engineering():
         logging.error(
             'Testing perform_feature_engineering. Test DataFrame size is not correct: ERROR')
         raise err
+
+def test_train_models():
+    '''
+    Test train_models() function from the churn_library module
+    '''
+    # Load the DataFrame
+    dataframe = cls.import_data("./data/bank_data.csv")
+
+    # Churn feature
+    dataframe['Churn'] = dataframe['Attrition_Flag'].\
+        apply(lambda val: 0 if val=="Existing Customer" else 1)
+
+    # Feature engineering 
+    (X_train, X_test, y_train, y_test) = cls.perform_feature_engineering(  
+                                                    dataframe=dataframe,
+                                                    response='Churn')
+
+    # Assert if `logistic_model.pkl` file exist
+    try:
+        cls.train_models(X_train, X_test, y_train, y_test)
+        assert os.path.isfile("./models/logistic_model.pkl") is True
+        logging.info('File %s was found', 'logistic_model.pkl')
+    except AssertionError as err:
+        logging.error('No such file in folder')
+        raise err
+
         
 if __name__ == "__main__":
     test_import()
     test_eda()
     test_encoder_helper()
     test_perform_feature_engineering()
+    test_train_models()
     
