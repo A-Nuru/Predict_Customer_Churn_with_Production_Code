@@ -255,8 +255,8 @@ def train_models(X_train, X_test, y_train, y_test):
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
         
     # training the models
-    #cv_rfc.fit(X_train, y_train)
-    #lrc.fit(X_train, y_train)
+    cv_rfc.fit(X_train, y_train)
+    lrc.fit(X_train, y_train)
     
     # Saving the best models
     joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
@@ -270,6 +270,11 @@ def train_models(X_train, X_test, y_train, y_test):
     y_train_preds_lr = lrc.predict(X_train)
     y_test_preds_lr  = lrc.predict(X_test)
     
+    # Plot ROC curve and save
+    plt.figure(figsize=(15, 8))
+    axis = plt.gca()
+    lrc_plot = plot_roc_curve(lrc, X_test, y_test, ax=axis, alpha=0.8)                         rfc_disp = plot_roc_curve(cv_rfc.best_estimator_, X_test, y_test, ax=axis, alpha=0.8)       plt.savefig(fname='./images/results/roc_curve_result.png')
+        
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
