@@ -253,6 +253,14 @@ def train_models(X_train, X_test, y_train, y_test):
 
     # Grid Search the patrameters
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+        
+    # training the models
+    cv_rfc.fit(X_train, y_train)
+    lrc.fit(X_train, y_train)
+    
+    # Saving the best models
+    joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
+    joblib.dump(lrc, './models/logistic_model.pkl')
     
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
