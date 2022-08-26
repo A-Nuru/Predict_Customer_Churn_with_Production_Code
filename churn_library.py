@@ -70,21 +70,6 @@ def perform_eda(dataframe):
     plt.savefig(fname='./images/eda/heatmap.png')
     return dataframe
 
-def category_lst(dataframe):
-    cat_columns = []
-    for column in dataframe.columns:
-        if dataframe[column].dtype == 'object':
-            cat_columns.append(column)
-    return cat_columns.remove('Attrition_Flag')
-
-def quantitative_columns(df):
-    quant_columns = []
-    for column in df.columns:
-        if df[column].dtype == 'int64' or df[column].dtype == 'float64':
-            quant_columns.append(column)
-    return quant_columns
-#category_lst = category_lst(DF)
-
 def encoder_helper(dataframe, category_lst, response = None):
     '''
     Helper function to turn each categorical column into a new column with
@@ -113,14 +98,54 @@ def encoder_helper(dataframe, category_lst, response = None):
             df_encoded[category] = column_lst
     print(df_encoded)
     return df_encoded
-      
+
+def perform_feature_engineering(dataframe, response):
+    '''
+    input:
+              df: pandas dataframe
+              response: string of response name [optional argument that could be used for naming variables or index y column]
+
+    output:
+              X_train: X training data
+              X_test: X testing data
+              y_train: y training data
+              y_test: y testing data
+    '''
+    cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status','Income_Category', 'Card_Category'  ]
+
+    # feature engineering
+    df_encoded = encoder_helper(dataframe=dataframe, category_lst=cat_columns, response=response)
+
+    # target feature 
+    y = df_encoded['Churn']     
+
+    # Create dataframe
+    X = pd.DataFrame()         
+
+    keep_cols = ['Customer_Age', 'Dependent_count', 'Months_on_book',
+                 'Total_Relationship_Count', 'Months_Inactive_12_mon',
+                 'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
+                 'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
+                 'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
+                 'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
+                 'Income_Category_Churn', 'Card_Category_Churn']
+
+    # Features DataFrame
+    X[keep_cols] = df_encoded[keep_cols]
+
+    # Train and Test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)  
+    #print(X_train)
+    return (X_train, X_test, y_train, y_test)
+
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
     #category_lst = category_lst(DF)
-    category_lst = ['Gender',
+    cat_columns = ['Gender',
  'Education_Level',
  'Marital_Status',
  'Income_Category',
  'Card_Category']
-    DF_ENCODED = encoder_helper(DATAFRAME, category_lst, 'churn')
+    DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
+    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')

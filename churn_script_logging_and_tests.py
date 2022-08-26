@@ -7,6 +7,7 @@ Date : 23th August 2022
 import os
 import logging
 import churn_library as cls
+from math import ceil
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -85,7 +86,7 @@ def test_eda():
          
 def test_encoder_helper():
     '''
-    Test encoder_helper() function from the churn_library module
+    Test encoder_helper function in the churn_library module
     '''
     # Load DataFrame
     dataframe = cls.import_data("./data/bank_data.csv")
@@ -106,9 +107,9 @@ def test_encoder_helper():
 
         # Data should be the same
         assert df_encoded.equals(dataframe) is True
-        logging.info("Testing encoder_helper(data_frame, category_lst=[]): SUCCESS")
+        logging.info("Testing encoder_helper(data_frame, cat_columns=[]) - with empty cat_columns and None response: SUCCESS")
     except AssertionError as err:
-        logging.error("Testing encoder_helper(data_frame, category_lst=[]): ERROR")
+        logging.error("Testing encoder_helper(data_frame, cat_columns=[] - with empty cat_columns and None response): ERROR")
         raise err
 
     try:
@@ -123,10 +124,10 @@ def test_encoder_helper():
         # Data should be different
         assert df_encoded.equals(dataframe) is False
         logging.info(
-            "Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): SUCCESS")
+            "Testing encoder_helper(dataframe, category_lst=cat_columns, response=None) - with non empty cat_columns and None response: SUCCESS")
     except AssertionError as err:
         logging.error(
-            "Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): ERROR")
+            "Testing encoder_helper(dataframe, category_lst=cat_columns, response=None) - with non empty cat_columns and None response: ERROR")
         raise err
 
     try:
@@ -144,14 +145,48 @@ def test_encoder_helper():
         # Number of columns in encoded_df is the sum of columns in data_frame and the newly created columns from cat_columns
         assert len(df_encoded.columns) == len(dataframe.columns) + len(cat_columns)    
         logging.info(
-        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): SUCCESS")
+        "Testing encoder_helper(dataframe, category_lst=cat_columns, response='Churn') - with non empty cat_columns and string response: SUCCESS")
     except AssertionError as err:
         logging.error(
-        "Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): ERROR")
+        "Testing encoder_helper(dataframe, category_lst=cat_columns, response='Churn') - with non empty cat_columns and string response: ERROR")
         raise err
 
+def test_perform_feature_engineering():
+    '''
+    Test perform_feature_engineering function in the churn_library module
+    '''
+    # Load the DataFrame
+    dataframe = cls.import_data("./data/bank_data.csv")
+
+    #Churn feature
+    dataframe['Churn'] = dataframe['Attrition_Flag'].\
+        apply(lambda val: 0 if val=="Existing Customer" else 1)
+
+    try:
+        (_, X_test, _, _) = cls.perform_feature_engineering(      
+                                                    dataframe=dataframe,
+                                                    response='Churn')
+
+        # "Churn" should be present in dataframe's column name
+        assert 'Churn' in dataframe.columns
+        logging.info("Testing perform_feature_engineering. Column name(s) of the Dataframe contains the response string 'Churn': SUCCESS")
+    except KeyError as err:
+        logging.error("Column name(s) of the Dataframe does not contain the response string 'Churn': ERROR")
+        raise err
+        
+    try:
+        # X_test size should be 30% of `data_frame`
+        assert (X_test.shape[0] == ceil(dataframe.shape[0]*0.3)) is True   
+        logging.info(
+            'Testing perform_feature_engineering. Test DataFrame size is correct: SUCCESS')
+    except AssertionError as err:
+        logging.error(
+            'Testing perform_feature_engineering. Test DataFrame size is not correct: ERROR')
+        raise err
+        
 if __name__ == "__main__":
     test_import()
     test_eda()
     test_encoder_helper()
+    test_perform_feature_engineering()
     
