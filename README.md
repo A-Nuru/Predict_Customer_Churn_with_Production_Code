@@ -26,9 +26,10 @@ Overview of the files and data present in the root directory.
 - Readme.md - a readme project file 
 - license.txt - a GNU license file
 - data folder - contains the bank_data.csv
-- image folder - Contains the eda and results subfolder. The eda subfolser stores the saved plots
+- image folder - Contains the eda and results subfolder. The eda subfolser stores the saved plots.
+                 The results subfolder stores the roc curve, logistic regression, random forest and feature importances png results 
 - logs folder - Contains the churn_library log file
-- models folder - Contains the stored models
+- models folder - Contains the stored models for easy reuse
 
 ## Running Files
 How do you run your files? What should happen when you run your files?
