@@ -6,6 +6,14 @@ root - INFO - File customer_age_distribution.png was found
 root - INFO - File marital_status_distribution.png was found
 root - INFO - File total_transaction_distribution.png was found
 root - INFO - File heatmap.png was found
-root - INFO - Testing encoder_helper(data_frame, category_lst=[]): SUCCESS
-root - INFO - Testing encoder_helper(data_frame, category_lst=cat_columns, response=None): SUCCESS
-root - INFO - Testing encoder_helper(data_frame, category_lst=cat_columns, response='Churn'): SUCCESS
+root - INFO - Testing encoder_helper(data_frame, cat_columns=[]) - with empty cat_columns and None response: SUCCESS
+root - INFO - Testing encoder_helper(dataframe, category_lst=cat_columns, response=None) - with non empty cat_columns and None response: SUCCESS
+root - INFO - Testing encoder_helper(dataframe, category_lst=cat_columns, response='Churn') - with non empty cat_columns and string response: SUCCESS
+root - INFO - Testing perform_feature_engineering. Column name(s) of the Dataframe contains the response string 'Churn': SUCCESS
+root - INFO - Testing perform_feature_engineering. Test DataFrame size is correct: SUCCESS
+root - INFO - File logistic_model.pkl was found
+root - INFO - File rfc_model.pkl was found
+root - INFO - File roc_curve_result.png was found
+root - INFO - File rf_results.png was found
+root - INFO - File logistic_results.png was found
+root - INFO - File feature_importances.png was found

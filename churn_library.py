@@ -200,7 +200,7 @@ def classification_report_image(y_train,
     plt.axis('off')
     plt.savefig(fname='./images/results/logistic_results.png')
 
-def feature_importance_plot(model, X_data, output_pth):
+def feature_importance_plot(model, features, output_pth):
     '''
     creates and stores the feature importances in pth
     input:
@@ -229,8 +229,67 @@ def feature_importance_plot(model, X_data, output_pth):
     # x-axis labels
     plt.xticks(range(features.shape[1]), names, rotation=90)
     plt.savefig(fname=output_pth + 'feature_importances.png')
-    
 
+def train_models(X_train, X_test, y_train, y_test):
+    '''
+    train, store model results: images + scores, and store models
+    input:
+              X_train: X training data
+              X_test: X testing data
+              y_train: y training data
+              y_test: y testing data
+    output:
+              None
+    '''
+    # Initialise RandomForestClassifier and LogisticRegression
+    rfc = RandomForestClassifier(random_state=42, n_jobs=-1)
+    lrc = LogisticRegression(n_jobs=-1, max_iter=1000)
+    
+    # Define Grid Search parameters
+    param_grid = {'n_estimators': [200, 500],
+                  'max_features': ['auto', 'sqrt'],
+                  'max_depth' : [4, 5, 100],
+                  'criterion' :['gini', 'entropy']}
+
+    # Grid Search the patrameters
+    cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+        
+    # training the models
+    cv_rfc.fit(X_train, y_train)
+    lrc.fit(X_train, y_train)
+    
+    # Saving the best models
+    joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
+    joblib.dump(lrc, './models/logistic_model.pkl')
+    
+    # RandomForestClassifier predictions - train and test
+    y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
+    y_test_preds_rf  = cv_rfc.best_estimator_.predict(X_test)
+
+    # LogisticRegression predictions - train and test
+    y_train_preds_lr = lrc.predict(X_train)
+    y_test_preds_lr  = lrc.predict(X_test)
+    
+    # Plot ROC curve and save
+    plt.figure(figsize=(15, 8))
+    axis = plt.gca()
+    lrc_plot = plot_roc_curve(lrc, X_test, y_test, ax=axis, alpha=0.8)
+    
+    rfc_disp = plot_roc_curve(cv_rfc.best_estimator_, X_test, y_test, ax=axis, alpha=0.8)
+    
+    plt.savefig(fname='./images/results/roc_curve_result.png')
+    
+     # compute, plot and save classification report
+    classification_report_image(y_train, y_test,
+                                y_train_preds_lr, y_train_preds_rf,
+                                y_test_preds_lr,  y_test_preds_rf)
+
+    # compute, plot and save feature importances
+    feature_importance_plot(model=cv_rfc,
+                            features=X_test,
+                            output_pth='./images/results/')
+
+        
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
@@ -242,3 +301,8 @@ if __name__ == '__main__':
  'Card_Category']
     DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
     X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')
+    # train,predict and evaluate model
+    train_models(X_train=X_TRAIN,
+                 X_test=X_TEST,
+                 y_train=Y_TRAIN,
+                 y_test=Y_TEST)
