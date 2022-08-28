@@ -200,7 +200,7 @@ def classification_report_image(y_train,
     plt.axis('off')
     plt.savefig(fname='./images/results/logistic_results.png')
 
-def feature_importance_plot(model, X_data, output_pth):
+def feature_importance_plot(model, features, output_pth):
     '''
     creates and stores the feature importances in pth
     input:
@@ -273,7 +273,22 @@ def train_models(X_train, X_test, y_train, y_test):
     # Plot ROC curve and save
     plt.figure(figsize=(15, 8))
     axis = plt.gca()
-    lrc_plot = plot_roc_curve(lrc, X_test, y_test, ax=axis, alpha=0.8)                         rfc_disp = plot_roc_curve(cv_rfc.best_estimator_, X_test, y_test, ax=axis, alpha=0.8)       plt.savefig(fname='./images/results/roc_curve_result.png')
+    lrc_plot = plot_roc_curve(lrc, X_test, y_test, ax=axis, alpha=0.8)
+    
+    rfc_disp = plot_roc_curve(cv_rfc.best_estimator_, X_test, y_test, ax=axis, alpha=0.8)
+    
+    plt.savefig(fname='./images/results/roc_curve_result.png')
+    
+     # compute, plot and save classification report
+    classification_report_image(y_train, y_test,
+                                y_train_preds_lr, y_train_preds_rf,
+                                y_test_preds_lr,  y_test_preds_rf)
+
+    # compute, plot and save feature importances
+    feature_importance_plot(model=cv_rfc,
+                            features=X_test,
+                            output_pth='./images/results/')
+
         
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
@@ -286,3 +301,8 @@ if __name__ == '__main__':
  'Card_Category']
     DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
     X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')
+    # train,predict and evaluate model
+    train_models(X_train=X_TRAIN,
+                 X_test=X_TEST,
+                 y_train=Y_TRAIN,
+                 y_test=Y_TEST)

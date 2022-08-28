@@ -225,7 +225,7 @@ def test_train_models():
         logging.error('No such file in folder')
         raise err
         
-    # Assert if 'rfc_results.png' file exist in results folder
+    # Assert if 'rf_results.png' file exist in results folder
     try:
         assert os.path.isfile('./images/results/rf_results.png') is True
         logging.info('File %s was found', 'rf_results.png')

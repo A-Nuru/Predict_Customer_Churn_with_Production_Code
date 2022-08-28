@@ -11,3 +11,9 @@ root - INFO - Testing encoder_helper(dataframe, category_lst=cat_columns, respon
 root - INFO - Testing encoder_helper(dataframe, category_lst=cat_columns, response='Churn') - with non empty cat_columns and string response: SUCCESS
 root - INFO - Testing perform_feature_engineering. Column name(s) of the Dataframe contains the response string 'Churn': SUCCESS
 root - INFO - Testing perform_feature_engineering. Test DataFrame size is correct: SUCCESS
+root - INFO - File logistic_model.pkl was found
+root - INFO - File rfc_model.pkl was found
+root - INFO - File roc_curve_result.png was found
+root - INFO - File rf_results.png was found
+root - INFO - File logistic_results.png was found
+root - INFO - File feature_importances.png was found
