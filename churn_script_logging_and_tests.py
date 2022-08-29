@@ -164,7 +164,8 @@ def test_perform_feature_engineering():
 
     try:
         (_, X_test, _, _) = cls.perform_feature_engineering(      
-                                                    dataframe=dataframe,
+                                                    dataframe=dataframe, 
+                                                    category_lst=cat_columns,
                                                     response='Churn')
 
         # "Churn" should be present in dataframe's column name
@@ -198,6 +199,7 @@ def test_train_models():
     # Feature engineering 
     (X_train, X_test, y_train, y_test) = cls.perform_feature_engineering(  
                                                     dataframe=dataframe,
+                                                    category_lst = cat_columns,
                                                     response='Churn')
 
     # Assert if 'logistic_model.pkl' file exist in results folder
@@ -262,6 +264,8 @@ if __name__ == "__main__":
     test_import()
     test_eda()
     test_encoder_helper()
+    cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category'  ]
     test_perform_feature_engineering()
     test_train_models()
     
