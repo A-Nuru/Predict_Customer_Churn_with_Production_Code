@@ -42,7 +42,8 @@ def perform_eda(dataframe):
     dataframe.drop('Unnamed: 0', axis=1, inplace=True)
     
     # Encoding the label column
-    dataframe['Churn'] = dataframe['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
+    dataframe['Churn'] = dataframe['Attrition_Flag'].apply(lambda val: 
+                                                           0 if val == "Existing Customer" else 1)
     # plotting and saving figures
     # Churn Distribution
     plt.figure(figsize=(20, 10))
@@ -103,7 +104,8 @@ def perform_feature_engineering(dataframe, response):
     '''
     input:
               df: pandas dataframe
-              response: string of response name [optional argument that could be used for naming variables or index y column]
+              response: string of response name [optional argument that 
+              could be used for naming variables or index y column]
 
     output:
               X_train: X training data
@@ -111,7 +113,8 @@ def perform_feature_engineering(dataframe, response):
               y_train: y training data
               y_test: y testing data
     '''
-    cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status','Income_Category', 'Card_Category'  ]
+    cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category'  ]
 
     # feature engineering
     df_encoded = encoder_helper(dataframe=dataframe, category_lst=cat_columns, response=response)
@@ -177,7 +180,7 @@ def classification_report_image(y_train,
              {'fontsize': 10}, 
              fontproperties='monospace')
     plt.axis('off')
-    plt.savefig(fname='./images/results/rf_results.png')
+    plt.savefig(fname='./images/results/rf_result.png')
     
     # Plot LogisticRegression classification report
     plt.rc('figure', figsize=(6, 6))
@@ -198,7 +201,7 @@ def classification_report_image(y_train,
              {'fontsize': 10}, 
              fontproperties='monospace')
     plt.axis('off')
-    plt.savefig(fname='./images/results/logistic_results.png')
+    plt.savefig(fname='./images/results/logistic_result.png')
 
 def feature_importance_plot(model, features, output_pth):
     '''
@@ -229,7 +232,7 @@ def feature_importance_plot(model, features, output_pth):
     # x-axis labels
     plt.xticks(range(features.shape[1]), names, rotation=90)
     plt.savefig(fname=output_pth + 'feature_importances.png')
-
+    
 def train_models(X_train, X_test, y_train, y_test):
     '''
     train, store model results: images + scores, and store models
@@ -288,17 +291,19 @@ def train_models(X_train, X_test, y_train, y_test):
     feature_importance_plot(model=cv_rfc,
                             features=X_test,
                             output_pth='./images/results/')
-
-        
+    
+    # compute, plot and save fexplainer
+    explainer_plot(model=cv_rfc,
+                            features=X_test,
+                            output_pth='./images/results/')
+          
 if __name__ == '__main__':
     DF = import_data(pth='./data/bank_data.csv')
     DATAFRAME = perform_eda(DF)
-    #category_lst = category_lst(DF)
-    cat_columns = ['Gender',
- 'Education_Level',
- 'Marital_Status',
- 'Income_Category',
- 'Card_Category']
+    
+    cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category'  ]
+    
     DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
     X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')
     # train,predict and evaluate model
