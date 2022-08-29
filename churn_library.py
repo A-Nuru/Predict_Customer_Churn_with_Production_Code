@@ -232,6 +232,22 @@ def feature_importance_plot(model, features, output_pth):
     # x-axis labels
     plt.xticks(range(features.shape[1]), names, rotation=90)
     plt.savefig(fname=output_pth + 'feature_importances.png')
+
+def explainer_plot(model, features, output_pth):
+    '''
+    creates and stores the feature importances in pth
+    input:
+            model: model object containing feature_importances_
+            X_data: pandas dataframe of X values
+            output_pth: path to store the figure
+
+    output:
+             None
+    '''
+    explainer = shap.TreeExplainer(model.best_estimator_)
+    shap_values = explainer.shap_values(features)
+    shap.summary_plot(shap_values, features, plot_type="bar", show = False)
+    plt.savefig(fname=output_pth + 'explainer.png')
     
 def train_models(X_train, X_test, y_train, y_test):
     '''
