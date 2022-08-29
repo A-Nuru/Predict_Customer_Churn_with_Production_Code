@@ -14,6 +14,7 @@ root - INFO - Testing perform_feature_engineering. Test DataFrame size is correc
 root - INFO - File logistic_model.pkl was found
 root - INFO - File rfc_model.pkl was found
 root - INFO - File roc_curve_result.png was found
-root - INFO - File rf_results.png was found
-root - INFO - File logistic_results.png was found
+root - INFO - File rf_result.png was found
+root - INFO - File logistic_result.png was found
 root - INFO - File feature_importances.png was found
+root - INFO - File explainer.png was found

@@ -249,7 +249,15 @@ def test_train_models():
     except AssertionError as err:
         logging.error('No such file in folder')
         raise err
-            
+        
+     # Assert if 'explainer.png' file exists in results folder
+    try:
+        assert os.path.isfile('./images/results/explainer.png') is True
+        logging.info('File %s was found', 'explainer.png')
+    except AssertionError as err:
+        logging.error('No such file in folder')
+        raise err
+        
 if __name__ == "__main__":
     test_import()
     test_eda()
