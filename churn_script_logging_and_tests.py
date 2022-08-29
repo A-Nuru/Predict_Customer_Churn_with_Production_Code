@@ -54,34 +54,34 @@ def test_eda():
         assert os.path.isfile("./images/eda/churn_distribution.png") is True
         logging.info('File %s was found', 'churn_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/customer_age_distribution.png") is True
         logging.info('File %s was found', 'customer_age_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/marital_status_distribution.png") is True
         logging.info('File %s was found', 'marital_status_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     try:
         assert os.path.isfile("./images/eda/total_transaction_distribution.png") is True
         logging.info('File %s was found', 'total_transaction_distribution.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
     try:
         assert os.path.isfile("./images/eda/heatmap.png") is True
         logging.info('File %s was found', 'heatmap.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
          
 def test_encoder_helper():
@@ -227,28 +227,29 @@ def test_train_models():
         
     # Assert if 'rf_results.png' file exist in results folder
     try:
-        assert os.path.isfile('./images/results/rf_results.png') is True
-        logging.info('File %s was found', 'rf_results.png')
+        assert os.path.isfile('./images/results/rf_result.png') is True
+        logging.info('File %s was found', 'rf_result.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
 
     # Assert if 'logistic_results.png' file exist in results folder
     try:
-        assert os.path.isfile('./images/results/logistic_results.png') is True
-        logging.info('File %s was found', 'logistic_results.png')
+        assert os.path.isfile('./images/results/logistic_result.png') is True
+        logging.info('File %s was found', 'logistic_result.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
-
+    
+   
     # Assert if 'feature_importances.png' file exists in results folder
     try:
         assert os.path.isfile('./images/results/feature_importances.png') is True
         logging.info('File %s was found', 'feature_importances.png')
     except AssertionError as err:
-        logging.error('Not such file on disk')
+        logging.error('No such file in folder')
         raise err
-        
+            
 if __name__ == "__main__":
     test_import()
     test_eda()
