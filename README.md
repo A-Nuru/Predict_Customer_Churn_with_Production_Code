@@ -34,6 +34,7 @@ Overview of the files and data present in the root directory.
 
 ## Running Files
 How do you run your files? What should happen when you run your files?
+- Create a virtual OR conda environment and activate
 - Install dependencies
 `python -m pip install -r requirements_py3.8.txt`
 - Running the churn_library.py 
