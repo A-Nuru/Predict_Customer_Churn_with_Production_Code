@@ -100,7 +100,7 @@ def encoder_helper(dataframe, category_lst, response = None):
     print(df_encoded)
     return df_encoded
 
-def perform_feature_engineering(dataframe, response):
+def perform_feature_engineering(dataframe, category_lst, response):
     '''
     input:
               df: pandas dataframe
@@ -320,8 +320,8 @@ if __name__ == '__main__':
     cat_columns = [ 'Gender', 'Education_Level', 'Marital_Status',
                    'Income_Category', 'Card_Category'  ]
     
-    DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
-    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DF_ENCODED, response='Churn')
+    #DF_ENCODED = encoder_helper(DATAFRAME, cat_columns, 'Churn')
+    X_TRAIN, X_TEST, Y_TRAIN, Y_TEST = perform_feature_engineering(DATAFRAME, cat_columns, response='Churn')
     # train,predict and evaluate model
     train_models(X_train=X_TRAIN,
                  X_test=X_TEST,

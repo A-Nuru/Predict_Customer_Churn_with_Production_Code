@@ -3,7 +3,6 @@
 - Project **Predict Customer Churn**
 
 ## Project Description
-Your project description here.
 The goal of this project is to identify the bank credit card users most likely churn. The Project 
 will include a Python package for a machine learning that predicts whether the credit card users 
 of a bank will churn or not. Best software and engineering practices for PEP8 such as clean 
@@ -35,6 +34,21 @@ Overview of the files and data present in the root directory.
 
 ## Running Files
 How do you run your files? What should happen when you run your files?
+- Create a virtual OR conda environment and activate
+- Install dependencies
+`python -m pip install -r requirements_py3.8.txt`
+- Running the churn_library.py 
+`ipython churn_library.py`  OR  `python churn_library.py`
 
+- Running the churn_script_logging_and_tests.py
+`ipython churn_script_logging_and_tests.py` OR `python churn_script_logging_and_tests.py`
+- Style Guide. Run
+`autopep8 --in-place --aggressive --aggressive churn_script_logging_and_tests.py`
+`churn_script_logging_and_tests.py`
+`autopep8 --in-place --aggressive --aggressive churn_library.py`
+
+- Style Checking and Error Spotting. Run
+`pylint churn_library.py`
+`pylint churn_script_logging_and_tests.py`
 
 

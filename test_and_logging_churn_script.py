@@ -7,7 +7,12 @@ Date : 23th August 2022
 import os
 import logging
 import churn_library as cls
+import pytest
 from math import ceil
+
+# Categorical Features
+cat_columns = ['Gender', 'Education_Level', 'Marital_Status',
+                   'Income_Category', 'Card_Category']
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -15,13 +20,21 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
-def test_import():
+@pytest.fixture(scope="module")
+def path():
+    """
+    Fixture - The test function test_import_data() will 
+    use the return of path() as an argument
+    """
+    return "./data/bank_data.csv"
+
+def test_import(path):
     '''
     test import_data function from the churn_library module
     '''
     # test file availaibilty in the path
     try:
-        dataframe = cls.import_data("./data/bank_data.csv")
+        dataframe = cls.import_data(path)
         logging.info("Testing import_data: SUCCESS")
     except FileNotFoundError as err:
         logging.error("Testing import_eda: The file wasn't found")
@@ -37,11 +50,11 @@ def test_import():
         logging.error("Testing import_data: The file doesn't appear to have rows and columns")
         raise err
 
-def test_eda():
+def test_eda(path):
     '''
     Test perform_eda function in the churn_library module
     '''
-    dataframe = cls.import_data("./data/bank_data.csv")
+    dataframe = cls.import_data(path)
     try:
         cls.perform_eda(dataframe)
         logging.info("Testing perform_eda: SUCCESS")
@@ -84,12 +97,12 @@ def test_eda():
         logging.error('No such file in folder')
         raise err
          
-def test_encoder_helper():
+def test_encoder_helper(path):
     '''
     Test encoder_helper function in the churn_library module
     '''
     # Load DataFrame
-    dataframe = cls.import_data("./data/bank_data.csv")
+    dataframe = cls.import_data(path)
 
     # Create `Churn` feature
     dataframe['Churn'] = dataframe['Attrition_Flag'].\
@@ -151,12 +164,12 @@ def test_encoder_helper():
         "Testing encoder_helper(dataframe, category_lst=cat_columns, response='Churn') - with non empty cat_columns and string response: ERROR")
         raise err
 
-def test_perform_feature_engineering():
+def test_perform_feature_engineering(path):
     '''
     Test perform_feature_engineering function in the churn_library module
     '''
     # Load the DataFrame
-    dataframe = cls.import_data("./data/bank_data.csv")
+    dataframe = cls.import_data(path)
 
     #Churn feature
     dataframe['Churn'] = dataframe['Attrition_Flag'].\
@@ -185,12 +198,12 @@ def test_perform_feature_engineering():
             'Testing perform_feature_engineering. Test DataFrame size is not correct: ERROR')
         raise err
 
-def test_train_models():
+def test_train_models(path):
     '''
     Test train_models() function from the churn_library module
     '''
     # Load the DataFrame
-    dataframe = cls.import_data("./data/bank_data.csv")
+    dataframe = cls.import_data(path)
 
     # Churn feature
     dataframe['Churn'] = dataframe['Attrition_Flag'].\
